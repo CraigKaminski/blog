@@ -25,11 +25,6 @@ resource "aws_s3_bucket" "hosting" {
   bucket_prefix = "blog-hosting"
 }
 
-resource "aws_s3_bucket_acl" "hosting" {
-  bucket = aws_s3_bucket.hosting.id
-  acl    = "public-read"
-}
-
 resource "aws_s3_bucket_policy" "public_read" {
   bucket = aws_s3_bucket.hosting.id
   policy = data.aws_iam_policy_document.public_read.json
