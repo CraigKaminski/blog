@@ -25,6 +25,11 @@ resource "aws_s3_bucket" "hosting" {
   bucket_prefix = "blog-hosting"
 }
 
+resource "aws_s3_bucket_acl" "hosting" {
+  bucket = aws_s3_bucket.hosting.id
+  acl    = "public-read"
+}
+
 resource "aws_s3_bucket_policy" "public_read" {
   bucket = aws_s3_bucket.hosting.id
   policy = data.aws_iam_policy_document.public_read.json
@@ -44,14 +49,6 @@ data "aws_iam_policy_document" "public_read" {
     resources = [
       "${aws_s3_bucket.hosting.arn}/*"
     ]
-  }
-}
-
-resource "aws_s3_bucket_ownership_controls" "hosting" {
-  bucket = aws_s3_bucket.hosting.id
-
-  rule {
-    object_ownership = "BucketOwnerEnforced"
   }
 }
 
