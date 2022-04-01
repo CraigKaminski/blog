@@ -8,7 +8,7 @@ terraform {
   required_version = ">= 1.1.0"
 
   cloud {
-    organization: "cstone"
+    organization = "cstone"
 
     workspaces {
       name = "blog_web-app_s3"
