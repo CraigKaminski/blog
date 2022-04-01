@@ -52,6 +52,14 @@ data "aws_iam_policy_document" "public_read" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "hosting" {
+  bucket = aws_s3_bucket.hosting.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_website_configuration" "hosting" {
   bucket = aws_s3_bucket.hosting.bucket
 
