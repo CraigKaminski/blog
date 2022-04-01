@@ -22,7 +22,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "hosting" {
-  bucket = "blog-hosting"
+  bucket_prefix = "blog-hosting"
 }
 
 resource "aws_s3_bucket_acl" "hosting" {
