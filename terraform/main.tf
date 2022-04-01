@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "hosting" {
 
 resource "aws_s3_bucket_acl" "hosting" {
   bucket = aws_s3_bucket.hosting.id
-  acl = "public-read"
+  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_policy" "public_read" {
