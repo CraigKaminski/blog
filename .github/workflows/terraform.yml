@@ -63,6 +63,28 @@ jobs:
         working-directory: ${{env.terraform-directory}}
         run: terraform apply -auto-approve
 
-      - name: Terraform output
+      - name: Terraform Output
         working-directory: ${{env.terraform-directory}}
-        run: terraform output s3_bucket_name
+        run: echo AWS_S3_BUCKET=$(terraform output -raw aws_s3_bucket) >> $GITHUB_ENV
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install Node Packages
+        run: npm ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: S3 Sync
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-2'
+          SOURCE_DIR: 'build'
