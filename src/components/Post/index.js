@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 function Post() {
-  const { paramsPostId } = useParams();
+  const { postId: paramsPostId } = useParams();
   const [post, setPost] = useState([]);
 
   async function getPost(postId) {
